@@ -9,7 +9,7 @@ My goal for this project was to learn how to create a multi level program with s
 - WEAPON ATK - 'u'
 - THROW ATK - 'i' (not currently implemented)
 - RUN - hold 'shift' (not currently implemented)
-- DODGE - 'space' (not currently implemented)
+- DODGE - 'space' (not currently implemented) 
 
 [Software Demo Video](http://youtube.link.goes.here)
 
