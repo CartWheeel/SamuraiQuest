@@ -113,16 +113,16 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.floor_surf = pygame.image.load('../my_graphics/tilemap/ground.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
-    # def zoom_keyboard_controls(self):
-    #     keys = pygame.key.get_pressed()
-    #     if keys[pygame.K_q]:
-    #         self.zoom_scale += 0.1
-    #     if keys[pygame.K_e]:
-    #         self.zoom_scale -= 0.1
+    def zoom_keyboard_controls(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_q]:
+            self.zoom_scale += 0.1
+        if keys[pygame.K_e]:
+            self.zoom_scale -= 0.1
 
     def custom_draw(self,player):
         # keyboard zoom control
-        # self.zoom_keyboard_controls()
+        self.zoom_keyboard_controls()
 
         # getting the offset
         self.offset.x = player.rect.centerx - self.half_width
