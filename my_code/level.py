@@ -6,6 +6,7 @@ from debug import debug
 from support import *
 from random import choice
 from weapon import Weapon
+from ui import UI
 
 class Level:
     def __init__(self):
@@ -22,6 +23,9 @@ class Level:
 
         #sprite setup
         self.create_map()
+
+        # user interface
+        self.ui = UI()
 
     def create_map(self):
         layouts = {
@@ -71,10 +75,21 @@ class Level:
                 if col == 'p':
                     self.player = Player((x, y), [self.visable_sprites],self.obstacle_sprites)
         
-        self.player = Player((700, 550), [self.visable_sprites],self.obstacle_sprites,self.create_attack,self.destroy_attack)
+        self.player = Player(
+            (700, 550), 
+            [self.visable_sprites],
+            self.obstacle_sprites,
+            self.create_attack,
+            self.destroy_attack,
+            self.create_magic)
 
     def create_attack(self):
         self.current_attack = Weapon(self.player, [self.visable_sprites])
+
+    def create_magic(self,style, strength,cost):
+        print(style)
+        print(strength)
+        print(cost)
 
     def destroy_attack(self):
         if self.current_attack:
@@ -85,7 +100,7 @@ class Level:
         # update and draw the game
         self.visable_sprites.custom_draw(self.player)
         self.visable_sprites.update()
-        debug(self.player.status)
+        self.ui.display(self.player)
 
 
 class YSortCameraGroup(pygame.sprite.Group):
@@ -113,16 +128,16 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.floor_surf = pygame.image.load('../my_graphics/tilemap/ground.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
-    def zoom_keyboard_controls(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_q]:
-            self.zoom_scale += 0.1
-        if keys[pygame.K_e]:
-            self.zoom_scale -= 0.1
+    # def zoom_keyboard_controls(self):
+    #     keys = pygame.key.get_pressed()
+    #     if keys[pygame.K_q]:
+    #         self.zoom_scale += 0.1
+    #     if keys[pygame.K_e]:
+    #         self.zoom_scale -= 0.1
 
     def custom_draw(self,player):
         # keyboard zoom control
-        self.zoom_keyboard_controls()
+        # self.zoom_keyboard_controls()
 
         # getting the offset
         self.offset.x = player.rect.centerx - self.half_width
