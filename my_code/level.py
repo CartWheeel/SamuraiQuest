@@ -7,21 +7,22 @@ from support import *
 from random import choice
 from weapon import Weapon
 from ui import UI
+from enemy import Enemy
 
 class Level:
     def __init__(self):
 
-        #get the display surface
+        # get the display surface
         self.display_surface = pygame.display.get_surface()
         
         # sprite group setup
-        self.visable_sprites = YSortCameraGroup()
+        self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
 
         # attack sprites
         self.current_attack = None
 
-        #sprite setup
+        # sprite setup
         self.create_map()
 
         # user interface
@@ -34,11 +35,12 @@ class Level:
             'object_collide': import_csv_layout('../my_map/map_ObjectsCollide.csv'),
             'object_detail1': import_csv_layout('../my_map/map_ObjectsDetail1.csv'),
             'object_detail2': import_csv_layout('../my_map/map_ObjectsDetail2.csv'),
+            'entities'      : import_csv_layout('../my_map/map_Entities.csv'),
             
         }
         graphics = {
             'grass'  : import_folder('../my_graphics/grass'),
-            'objects': import_folder('../my_graphics/objects') # path here
+            'objects': import_folder('../my_graphics/objects')
         }
         
         for style,layout in layouts.items():
@@ -48,45 +50,47 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible') # include self.visable_sprites to make boundary visable
+                            Tile((x,y),[self.obstacle_sprites],'invisible') # include self.visible_sprites to make boundary visible
                         
                         # create grass tiles
                         if style == 'grass':                            
                             random_grass_image = choice(graphics['grass'])
-                            Tile((x,y), [self.visable_sprites,self.obstacle_sprites],'grass',random_grass_image)
+                            Tile((x,y), [self.visible_sprites,self.obstacle_sprites],'grass',random_grass_image)
                         
                         # create an collisionable object tiles
                         if style == 'object_collide':                            
                             surf = graphics['objects'][int(col)]
-                            Tile((x,y),[self.visable_sprites,self.obstacle_sprites], 'object_collide',surf)
+                            Tile((x,y),[self.visible_sprites,self.obstacle_sprites], 'object_collide',surf)
                         
                         # create layer 1 object tiles
                         if style == 'object_detail1':                    
                             surf = graphics['objects'][int(col)]
-                            Tile((x,y),[self.visable_sprites], 'object_detail1',surf)
-                        
+                            Tile((x,y),[self.visible_sprites], 'object_detail1',surf)
+
                         # create layer 2 object tiles
                         if style == 'object_detail2':                          
                             surf = graphics['objects'][int(col)]
-                            Tile((x,y),[self.visable_sprites], 'object_detail12',surf)
-
-                if col == 'x':
-                    Tile((x, y), [self.visable_sprites,self.obstacle_sprites])
-                if col == 'p':
-                    self.player = Player((x, y), [self.visable_sprites],self.obstacle_sprites)
-        
-        self.player = Player(
-            (700, 550), 
-            [self.visable_sprites],
-            self.obstacle_sprites,
-            self.create_attack,
-            self.destroy_attack,
-            self.create_magic)
+                            Tile((x,y),[self.visible_sprites], 'object_detail12',surf)                        
+                        
+                        if style == 'entities':
+                            if col == '33':        
+                                self.player = Player(
+                                    (x, y), 
+                                    [self.visible_sprites],
+                                    self.obstacle_sprites,
+                                    self.create_attack,
+                                    self.destroy_attack,
+                                    self.create_magic)
+                            else:
+                                if col == '45': monster_name = 'kitsune'
+                                elif col == '57': monster_name = 'shade'
+                                else: monster_name = 'bamboo'
+                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
 
     def create_attack(self):
-        self.current_attack = Weapon(self.player, [self.visable_sprites])
+        self.current_attack = Weapon(self.player, [self.visible_sprites])
 
-    def create_magic(self,style, strength,cost):
+    def create_magic(self,style,strength,cost):
         print(style)
         print(strength)
         print(cost)
@@ -98,10 +102,10 @@ class Level:
 
     def run(self):
         # update and draw the game
-        self.visable_sprites.custom_draw(self.player)
-        self.visable_sprites.update()
+        self.visible_sprites.custom_draw(self.player)
+        self.visible_sprites.update()
+        self.visible_sprites.enemy_update(self.player)
         self.ui.display(self.player)
-
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -128,16 +132,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.floor_surf = pygame.image.load('../my_graphics/tilemap/ground.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
-    # def zoom_keyboard_controls(self):
-    #     keys = pygame.key.get_pressed()
-    #     if keys[pygame.K_q]:
-    #         self.zoom_scale += 0.1
-    #     if keys[pygame.K_e]:
-    #         self.zoom_scale -= 0.1
-
     def custom_draw(self,player):
-        # keyboard zoom control
-        # self.zoom_keyboard_controls()
 
         # getting the offset
         self.offset.x = player.rect.centerx - self.half_width
@@ -156,3 +151,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         scaled_rect = scaled_surf.get_rect(center = (self.half_width, self.half_height))
 
         self.display_surface.blit(scaled_surf, scaled_rect)
+
+    def enemy_update(self,player):
+        enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy']
+        for enemy in enemy_sprites:
+            enemy.enemy_update(player)

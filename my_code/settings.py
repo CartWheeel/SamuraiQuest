@@ -34,6 +34,7 @@ magic_data = {
 
 # enemy
 monster_data = {
-    'ninja': {'health': 200,'exp': 100,'damage': 25,'attack_type': 'slash','attack_sound': '','speed': 3,'resistance': 3,'attack_radius': 80,'notice_radius': 360},
-    'kitsune': {'health': 100,'exp': 50,'damage': 15,'attack_type': 'leaf_attack','attack_sound': '','speed': 4,'resistance': 3,'attack_radius': 60,'notice_radius': 350}
+    'shade'  : {'health': 200,'exp': 100,'damage': 25,'attack_type': 'slash','attack_sound': '','speed': 3,'resistance': 3,'attack_radius': 80,'notice_radius': 360},
+    'kitsune': {'health': 100,'exp': 50,'damage': 15,'attack_type': 'leaf_attack','attack_sound': '','speed': 4,'resistance': 3,'attack_radius': 60,'notice_radius': 350},
+    'bamboo' : {'health': 25,'exp': 25,'damage': 5,'attack_type': 'leaf_attack','attack_sound': '','speed': 1,'resistance': 3,'attack_radius': 50,'notice_radius': 300}
 }
