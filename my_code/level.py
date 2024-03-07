@@ -21,6 +21,8 @@ class Level:
 
         # attack sprites
         self.current_attack = None
+        self.attack_sprites = pygame.sprite.Group()
+        self.attackable_sprites = pygame.sprite.Group()
 
         # sprite setup
         self.create_map()
@@ -55,7 +57,10 @@ class Level:
                         # create grass tiles
                         if style == 'grass':                            
                             random_grass_image = choice(graphics['grass'])
-                            Tile((x,y), [self.visible_sprites,self.obstacle_sprites],'grass',random_grass_image)
+                            Tile((x,y),
+                                 [self.visible_sprites,self.obstacle_sprites,self.attackable_sprites],
+                                 'grass',
+                                 random_grass_image)
                         
                         # create an collisionable object tiles
                         if style == 'object_collide':                            
@@ -85,10 +90,15 @@ class Level:
                                 if col == '45': monster_name = 'kitsune'
                                 elif col == '57': monster_name = 'shade'
                                 else: monster_name = 'bamboo'
-                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
+                                Enemy(monster_name,
+                                     (x,y),
+                                     [self.visible_sprites,self.attackable_sprites],
+                                    self.obstacle_sprites,
+                                    self.damage_player)
 
     def create_attack(self):
-        self.current_attack = Weapon(self.player, [self.visible_sprites])
+        self.current_attack = Weapon(self.player, [self.visible_sprites,self.attack_sprites])
+
 
     def create_magic(self,style,strength,cost):
         print(style)
@@ -100,12 +110,33 @@ class Level:
             self.current_attack.kill()
         self.current_attack = None
 
+    def player_attack_logic(self):
+        if self.attack_sprites:
+            for attack_sprite in self.attack_sprites:
+                collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
+                if collision_sprites:
+                    for target_sprite in collision_sprites:
+                        if target_sprite.sprite_type == 'grass':
+                            target_sprite.kill()
+                        else:
+                            target_sprite.get_damage(self.player,attack_sprite.sprite_type,)
+
+    def damage_player(self,amount,attack_type):
+        if self.player.vulnerable:
+            self.player.health -= amount
+            self.player.vulnerable = False
+            self.player.hurt_time = pygame.time.get_ticks()
+            # spawn particles
+
     def run(self):
         # update and draw the game
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
+        self.player_attack_logic()
         self.ui.display(self.player)
+
+
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -118,8 +149,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # zoom
-        self.zoom_scale = 3
-        self.internal_surf_size = (1200,1200)
+        self.zoom_scale = 2.5
+        self.internal_surf_size = (1500,1500)
         self.internal_surf = pygame.Surface(self.internal_surf_size, pygame.SRCALPHA)
         self.internal_rect = self.internal_surf.get_rect(center = (self.half_width, self.half_height))
         self.internal_surf_size_vector = pygame.math.Vector2(self.internal_surf_size)
@@ -133,6 +164,8 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
     def custom_draw(self,player):
+
+        self.internal_surf.fill('#419fcc')
 
         # getting the offset
         self.offset.x = player.rect.centerx - self.half_width

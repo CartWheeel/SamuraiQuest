@@ -24,7 +24,7 @@ ENERGY_COLOR = '#5B91D7'
 UI_BORDER_COLOR_ACTIVE = 'gold'
 
 weapon_data = {
-    'katana': {'cooldown': 100, 'damage': 20, 'graphic':'../my_graphics/weapons/katana/full.png'}
+    'katana': {'cooldown': 100, 'damage': 10, 'graphic':'../my_graphics/weapons/katana/full.png'}
 }
 
 # magic
@@ -34,7 +34,7 @@ magic_data = {
 
 # enemy
 monster_data = {
-    'shade'  : {'health': 200,'exp': 100,'damage': 25,'attack_type': 'slash','attack_sound': '','speed': 3,'resistance': 3,'attack_radius': 80,'notice_radius': 360},
-    'kitsune': {'health': 100,'exp': 50,'damage': 15,'attack_type': 'leaf_attack','attack_sound': '','speed': 4,'resistance': 3,'attack_radius': 60,'notice_radius': 350},
-    'bamboo' : {'health': 25,'exp': 25,'damage': 5,'attack_type': 'leaf_attack','attack_sound': '','speed': 1,'resistance': 3,'attack_radius': 50,'notice_radius': 300}
+    'shade'  : {'health': 200,'exp': 100,'damage': 25,'attack_type': 'slash','attack_sound': '','speed': 2,'resistance': 5,'attack_radius': 60,'notice_radius': 150},
+    'kitsune': {'health': 100,'exp': 50,'damage': 15,'attack_type': 'leaf_attack','attack_sound': '','speed': 3,'resistance': 3,'attack_radius': 40,'notice_radius': 200},
+    'bamboo' : {'health': 50,'exp': 25,'damage': 5,'attack_type': 'leaf_attack','attack_sound': '','speed': 1,'resistance': 3,'attack_radius': 20,'notice_radius': 100}
 }
