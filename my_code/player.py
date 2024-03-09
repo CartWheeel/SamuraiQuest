@@ -8,10 +8,10 @@ class Player(Entity):
         super().__init__(groups)
         self.image = pygame.image.load('../my_graphics/test/samurai.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(-20,-10) #adjust player hitbox
+        self.hitbox = self.rect.inflate(-20,-5) #adjust player hitbox
         
         # graphics setup
-        self.import_player_assets()
+        self.import_player_assets() 
         self.status = 'down'
 
         #movement    

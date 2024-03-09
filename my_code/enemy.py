@@ -4,7 +4,7 @@ from entity import Entity
 from support import *
 
 class Enemy(Entity):
-    def __init__(self,monster_name,pos,groups,obstacle_sprites,damage_player):
+    def __init__(self,monster_name,pos,groups,obstacle_sprites,damage_player,trigger_death_particles):
 
         # general sete up
         super().__init__(groups)
@@ -17,7 +17,7 @@ class Enemy(Entity):
 
         # movement
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0,0)
+        self.hitbox = self.rect.inflate(-20,-5)
         self.obstacle_sprites = obstacle_sprites        
 
         # stats
@@ -37,6 +37,7 @@ class Enemy(Entity):
         self.attack_time = None
         self.attack_cooldown = 1000
         self.damage_player = damage_player
+        self.trigger_death_particles = trigger_death_particles
 
         # invincibility timer
         self.vulnerable = True
@@ -78,7 +79,6 @@ class Enemy(Entity):
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
             self.damage_player(self.attack_damage,self.attack_type)
-            print('attack')
         elif self.status == 'move':
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -128,6 +128,7 @@ class Enemy(Entity):
     def check_death(self):
         if self.health <= 0:
             self.kill()
+            self.trigger_death_particles(self.rect.center,self.monster_name )
 
     def hit_reaction(self):
         if not self.vulnerable:
