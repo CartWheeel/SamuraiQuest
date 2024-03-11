@@ -40,9 +40,9 @@ magic_data = {
 
 # enemy
 monster_data = {
-    'shade'  : {'health': 200,'exp': 100,'damage': 25,'attack_type': 'thunder','attack_sound': '','speed': 2,'resistance': 5,'attack_radius': 60,'notice_radius': 150},
-    'kitsune': {'health': 100,'exp': 50,'damage': 15,'attack_type': 'claw','attack_sound': '','speed': 3,'resistance': 3,'attack_radius': 40,'notice_radius': 200},
-    'bamboo' : {'health': 50,'exp': 25,'damage': 5,'attack_type': 'leaf_attack','attack_sound': '','speed': 1,'resistance': 3,'attack_radius': 20,'notice_radius': 100},
+    'shade'  : {'health': 200,'exp': 500,'damage': 25,'attack_type': 'thunder','attack_sound': '','speed': 2,'resistance': 5,'attack_radius': 60,'notice_radius': 150},
+    'kitsune': {'health': 100,'exp': 100,'damage': 15,'attack_type': 'claw','attack_sound': '','speed': 3,'resistance': 3,'attack_radius': 40,'notice_radius': 200},
+    'bamboo' : {'health': 50,'exp': 50,'damage': 5,'attack_type': 'leaf_attack','attack_sound': '','speed': 1,'resistance': 3,'attack_radius': 20,'notice_radius': 100},
     'shade_alt'  : {'health': 200,'exp': 100,'damage': 25,'attack_type': 'thunder','attack_sound': '','speed': 2,'resistance': 5,'attack_radius': 60,'notice_radius': 150},
     'kitsune_alt': {'health': 100,'exp': 50,'damage': 15,'attack_type': 'leaf_attack','attack_sound': '','speed': 3,'resistance': 3,'attack_radius': 40,'notice_radius': 200}
 }
