@@ -14,7 +14,7 @@ My goal for this project was to learn how to create a multi level program with s
 - RUN - hold 'shift' (not currently implemented)
 - DODGE - 'space' (not currently implemented) 
 
-[Software Demo Video](https://www.loom.com/share/fb83325dcbc241ddbe75163c690f1a9f?sid=718bb088-d1d5-4d2e-aaeb-4f7aecb114c5)
+[Software Demo Video](https://www.loom.com/share/b836b35b4b9b4b46935d464a0d708c80?sid=870e97a6-9669-4622-a3b5-5e127419dc10)
 
 # Development Environment
 
@@ -38,6 +38,7 @@ My goal for this project was to learn how to create a multi level program with s
     - Improved animations
     - Audio
     - Boss fight
+    - Kill screen when game over
     - Player movement (run, roll/dodge)
 * FIXES
     - Sprite layers for proper depth
