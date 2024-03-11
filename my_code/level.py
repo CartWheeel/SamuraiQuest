@@ -9,12 +9,15 @@ from weapon import Weapon
 from ui import UI
 from enemy import Enemy
 from particles import AnimationPlayer
+from magic import MagicPlayer
+from upgrade import Upgrade
 
 class Level:
     def __init__(self):
 
         # get the display surface
         self.display_surface = pygame.display.get_surface()
+        self.game_paused = False
         
         # sprite group setup
         self.visible_sprites = YSortCameraGroup()
@@ -30,9 +33,11 @@ class Level:
 
         # user interface
         self.ui = UI()
+        self.upgrade = Upgrade(self.player)
 
         # particles
         self.animation_player = AnimationPlayer()
+        self.magic_player = MagicPlayer(self.animation_player)
 
     def create_map(self):
         layouts = {
@@ -99,15 +104,18 @@ class Level:
                                      [self.visible_sprites,self.attackable_sprites],
                                     self.obstacle_sprites,
                                     self.damage_player,
-                                    self.trigger_death_particles)
+                                    self.trigger_death_particles,
+                                    self.add_exp)
 
     def create_attack(self):
         self.current_attack = Weapon(self.player, [self.visible_sprites,self.attack_sprites])
 
     def create_magic(self,style,strength,cost):
-        print(style)
-        print(strength)
-        print(cost)
+        if style == 'heal':
+            self.magic_player.heal(self.player,strength,cost,[self.visible_sprites])
+
+        if style == 'shuriken':
+            self.magic_player.shuriken(self.player,cost,[self.visible_sprites,self.attack_sprites])
 
     def destroy_attack(self):
         if self.current_attack:
@@ -122,7 +130,7 @@ class Level:
                     for target_sprite in collision_sprites:
                         if target_sprite.sprite_type == 'grass':
                             pos = target_sprite.rect.center
-                            offset = pygame.math.Vector2(0,75)
+                            offset = pygame.math.Vector2(0,15)
                             for leaf in range(randint(3,6)):
                                 self.animation_player.create_grass_particles(pos - offset,{self.visible_sprites})
                             target_sprite.kill()
@@ -137,18 +145,25 @@ class Level:
             self.animation_player.create_particles(attack_type,self.player.rect.center,[self.visible_sprites])
 
     def trigger_death_particles(self,pos,particle_type):
-        
         self.animation_player.create_particles(particle_type,pos,self.visible_sprites)
 
+    def add_exp(self,amount):
+        self.player.exp += amount   
+
+    def toggle_menu(self):
+        self.game_paused = not self.game_paused
+
     def run(self):
-        # update and draw the game
         self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
-        self.visible_sprites.enemy_update(self.player)
-        self.player_attack_logic()
         self.ui.display(self.player)
 
-
+        if self.game_paused:
+            self.upgrade.display()
+        
+        else:
+            self.visible_sprites.update()
+            self.visible_sprites.enemy_update(self.player)
+            self.player_attack_logic()
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):

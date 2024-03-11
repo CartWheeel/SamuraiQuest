@@ -4,9 +4,11 @@ from random import choice
 
 class AnimationPlayer:
     def __init__(self):
+        scale_factor = .5
         self.frames = {
 			# magic
-			'flame': import_folder('../my_graphics/particles/flame/frames'),
+			'shuriken': import_folder('../my_graphics/particles/shuriken/frames'),
+            'shuriken2': self.reflect_images(import_folder('../my_graphics/particles/shuriken/frames')),
 			'aura': import_folder('../my_graphics/particles/aura'),
 			'heal': import_folder('../my_graphics/particles/heal/frames'),
 			
@@ -18,9 +20,8 @@ class AnimationPlayer:
 			'thunder': import_folder('../my_graphics/particles/thunder'),
 
 			# monster deaths
-			'squid': import_folder('../my_graphics/particles/smoke_orange'),
-			'raccoon': import_folder('../my_graphics/particles/raccoon'),
-			'spirit': import_folder('../my_graphics/particles/nova'),
+			'kitsune': import_folder('../my_graphics/particles/smoke_orange'),
+			'shade': import_folder('../my_graphics/particles/smoke'),
 			'bamboo': import_folder('../my_graphics/particles/bamboo'),
 			
 			# leafs 
@@ -59,6 +60,7 @@ class AnimationPlayer:
 class ParticleEffect(pygame.sprite.Sprite):
     def __init__(self,pos,animation_frames,groups) -> None:
         super().__init__(groups)
+        self.sprite_type = 'magic'
         self.frame_index = 0
         self.animation_speed = 0.5
         self.frames = animation_frames

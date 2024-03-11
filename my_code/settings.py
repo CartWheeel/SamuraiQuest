@@ -23,13 +23,19 @@ HEALTH_COLOR = '#F64F3C'
 ENERGY_COLOR = '#5B91D7'
 UI_BORDER_COLOR_ACTIVE = 'gold'
 
+# upgrade menu
+TEXT_COLOR_SELECTED = '#111111'
+BAR_COLOR = '#EEEEEE'
+BAR_COLOR_SELECTED = '#111111' 
+UPGRADE_BG_COLOR_SELECTED = '#EEEEEE' 
+
 weapon_data = {
     'katana': {'cooldown': 100, 'damage': 10, 'graphic':'../my_graphics/weapons/katana/full.png'}
 }
 
 # magic
 magic_data = {
-    'flame' : {'strength': 5, 'cost': 20, 'graphic': '../my_graphics/particles/flame/fire.png'},
+    'shuriken' : {'strength': 5, 'cost': 5, 'graphic': '../my_graphics/particles/shuriken/shuriken.png'},
     'heal'     : {'strength': 20, 'cost': 10, 'graphic': '../my_graphics/particles/heal/heal.png'}}
 
 # enemy
