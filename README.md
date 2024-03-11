@@ -7,7 +7,10 @@ My goal for this project was to learn how to create a multi level program with s
 
 - MOVE - 'wasd' / up,down,left,right arrow keys
 - WEAPON ATK - 'u'
-- THROW ATK - 'i' (not currently implemented)
+- SWAP 2ND ACTION - 'q'
+- PAUSE/ UPGRADE MENU - 'e'
+- CONFIRM UPGRADE - 'space'
+- 2ND ACTION - 'i' 
 - RUN - hold 'shift' (not currently implemented)
 - DODGE - 'space' (not currently implemented) 
 
@@ -32,17 +35,11 @@ My goal for this project was to learn how to create a multi level program with s
 # Future Work
 
 * ADD
-    - Enemies
-    - Player/enemy/environment interactions
     - Improved animations
     - Audio
-    - UI
     - Boss fight
-    - Player movement (run, roll/dodge, throw attack)
-    - Smart enemies 
-    - Damage mechanic
+    - Player movement (run, roll/dodge)
 * FIXES
     - Sprite layers for proper depth
-    - Speed scaling when adjusting zoom
     - Player attacks continuously when attack button is held. Would like to attack once. Same problem for zoom in and out
-    - Game window at top of screen gets messed up due to scaling
+    - Speed upgrade
